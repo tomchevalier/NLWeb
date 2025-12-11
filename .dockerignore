@@ -69,3 +69,4 @@ iunera/
 # Remove local configuration from code directory
 code/.env
 code/logs/
+
