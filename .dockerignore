@@ -64,6 +64,7 @@ iunera/
 # Keep necessary files
 !code/
 !static/
+!config/
 
 # Remove local configuration from code directory
 code/.env
