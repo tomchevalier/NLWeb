@@ -1,7 +1,7 @@
 # Ignore everything first
 *
 
-# Allow only what Docker needs (directory AND contents)
+# Allow what Docker needs
 !code/
 !code/**
 !static/
@@ -9,9 +9,8 @@
 !config/
 !config/**
 !Dockerfile
-!requirements.txt
 
-# Exclude specific files
+# Exclude unwanted files from allowed directories
 **/__pycache__/
 **/*.pyc
 **/.env
