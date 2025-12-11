@@ -1,4 +1,3 @@
-preferred_provider: qdrant_local
 write_endpoint: qdrant_local
 
 endpoints:
