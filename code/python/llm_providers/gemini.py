@@ -16,7 +16,8 @@ import logging
 import asyncio
 from typing import Dict, Any, Optional
 
-import google.generativeai as genai 
+import google.generativeai as genai
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from core.config import CONFIG
 import threading
 
@@ -31,10 +32,9 @@ class ConfigurationError(RuntimeError):
     """Raised when configuration is missing or invalid."""
     pass
 
-
 class GeminiProvider(LLMProvider):
     """Implementation of LLMProvider for Google's Gemini API."""
-    
+
     _initialized = False
     _client_lock = threading.Lock()
 
@@ -46,7 +46,7 @@ class GeminiProvider(LLMProvider):
             api_key = provider_config.api_key
             if api_key:
                 api_key = api_key.strip('"')  # Remove quotes if present
-                return api_key
+            return api_key
         return None
 
     @classmethod
@@ -103,28 +103,27 @@ class GeminiProvider(LLMProvider):
         if content is None:
             logger.warning("Received None content from Gemini API")
             return {}
-            
+
         # Handle empty string case
         response_text = content.strip()
         if not response_text:
             logger.warning("Received empty content from Gemini API")
             return {}
-            
+
         # Remove markdown code block indicators if present
         response_text = response_text.replace('```json', '').replace('```', '').strip()
-                
+
         # Find the JSON object within the response
         start_idx = response_text.find('{')
         end_idx = response_text.rfind('}') + 1
-        
+
         if start_idx == -1 or end_idx == 0:
             error_msg = "No valid JSON object found in response"
             logger.error(f"{error_msg}, content: {response_text}")
             return {}
-            
 
         json_str = response_text[start_idx:end_idx]
-                
+
         try:
             result = json.loads(json_str)
 
@@ -157,9 +156,9 @@ class GeminiProvider(LLMProvider):
         self.configure_gemini()
 
         system_prompt = f"""Provide a response that matches this JSON schema: {json.dumps(schema)}"""
-        
+
         logger.debug(f"Sending completion request to Gemini API with model: {model_to_use}")
-        
+
         # create the model
         model_instance = genai.GenerativeModel(
             model_to_use,
@@ -169,10 +168,16 @@ class GeminiProvider(LLMProvider):
         config = {
             "temperature": temperature,
             "max_output_tokens": max_tokens,
-            # "response_mime_type": "application/json",
         }
-        # logger.debug(f"\t\tRequest config: {config}")
-        # logger.debug(f"\t\tPrompt content: {prompt}...")  # Log first 100 chars
+
+        # Safety settings to prevent blocking recruitment content
+        safety_settings = {
+            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+        }
+
         try:
             print(f"\n=== GEMINI DEBUG ===")
             print(f"Model: {model_to_use}")
@@ -180,17 +185,18 @@ class GeminiProvider(LLMProvider):
             print(f"Timeout: {timeout} seconds")
             print(f"Prompt length: {len(prompt)} chars")
             print(f"First 200 chars of prompt: {prompt[:200]}...")
-            
+
             response = await asyncio.wait_for(
                 asyncio.to_thread(
                     lambda: model_instance.generate_content(
                         prompt,
-                        generation_config=config
+                        generation_config=config,
+                        safety_settings=safety_settings
                     )
                 ),
                 timeout=timeout
             )
-            
+
             print(f"Response received: {response is not None}")
             if response:
                 print(f"Has text attr: {hasattr(response, 'text')}")
@@ -199,7 +205,6 @@ class GeminiProvider(LLMProvider):
                     if response.text:
                         print(f"Text length: {len(response.text)}")
                         print(f"First 200 chars of response: {response.text[:200]}...")
-                # Debug: print all attributes of response
                 print(f"Response attributes: {dir(response)}")
                 if hasattr(response, 'candidates'):
                     print(f"Candidates: {response.candidates}")
@@ -214,7 +219,7 @@ class GeminiProvider(LLMProvider):
                         print(f"Finish reason: {candidate.finish_reason if hasattr(candidate, 'finish_reason') else 'N/A'}")
                 if hasattr(response, 'prompt_feedback'):
                     print(f"Prompt feedback: {response.prompt_feedback}")
-            
+
             # Try to extract text from response or candidates
             content = None
             if response:
@@ -235,15 +240,15 @@ class GeminiProvider(LLMProvider):
                             if text_parts:
                                 content = ' '.join(text_parts)
                                 break
-            
+
             if not content:
                 logger.error("Invalid or empty response from Gemini - no content extracted")
                 print("=== END GEMINI DEBUG (ERROR) ===\n")
                 # Return empty dict with score 0 for WHO ranking
                 return {"score": 0, "description": "Failed to get response from Gemini"}
-            
+
             logger.debug("Received response from Gemini API")
-            logger.debug(f"\t\tResponse content: {content[:100]}...")  # Log first 100 chars
+            logger.debug(f"\t\tResponse content: {content[:100]}...")
             print(f"Extracted content length: {len(content)}")
             print(f"First 200 chars of extracted content: {content[:200]}...")
             print("=== END GEMINI DEBUG (SUCCESS) ===\n")
@@ -258,7 +263,6 @@ class GeminiProvider(LLMProvider):
                 f"Gemini completion failed: {type(e).__name__}: {str(e)}"
             )
             raise
-
 
 # Create a singleton instance
 provider = GeminiProvider()
