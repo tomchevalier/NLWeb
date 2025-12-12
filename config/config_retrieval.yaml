@@ -1,5 +1,8 @@
 retrieval_endpoints:
   qdrant_cloud:
     endpoint_type: qdrant
-    api_key: ${QDRANT_API_KEY}
-    url: ${QDRANT_URL}
+    api_key_env_var: QDRANT_API_KEY
+    url_env_var: QDRANT_URL
+    enabled: true
+
+preferred_endpoint: qdrant_cloud
