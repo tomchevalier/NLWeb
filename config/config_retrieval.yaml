@@ -5,3 +5,9 @@ endpoints:
     api_key_env: QDRANT_API_KEY
     index_name: skus
     db_type: qdrant
+
+providers:
+  gemini:
+    api_key_env: GEMINI_API_KEY
+    model: models/text-embedding-004
+    
