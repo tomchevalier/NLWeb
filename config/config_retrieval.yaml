@@ -1,7 +1,10 @@
-preferred_retriever: qdrant
+preferred_endpoint: qdrant_cloud
 
-retrievers:
-  qdrant:
-    api_key_env: QDRANT_API_KEY
-    url_env: QDRANT_URL
-    collection_name: tink_skus
+retrieval_endpoints:
+  qdrant_cloud:
+    endpoint_type: qdrant
+    api_key_env_var: QDRANT_API_KEY
+    url_env_var: QDRANT_URL
+    collection_name: nlweb_tink
+    embedding_model: text-embedding-3-small
+    embedding_dimension: 1536
