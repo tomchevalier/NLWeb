@@ -69,5 +69,7 @@ ENV PYTHONPATH=/app
 ENV PORT=8000
 ENV NLWEB_CONFIG_DIR=/app/config
 
+RUN python -m tools.load_data data/tink.jsonl --site tink || true
+
 # Command to run the application
 CMD ["python", "python/app-file.py"]
