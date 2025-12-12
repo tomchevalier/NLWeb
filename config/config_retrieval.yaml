@@ -1,8 +1,7 @@
-retrieval_endpoints:
+endpoints:
   qdrant_cloud:
-    endpoint_type: qdrant
-    api_key_env_var: QDRANT_API_KEY
-    url_env_var: QDRANT_URL
     enabled: true
-
-preferred_endpoint:  qdrant_cloud
+    api_endpoint_env: QDRANT_URL
+    api_key_env: QDRANT_API_KEY
+    index_name: nlweb_collection
+    db_type: qdrant
