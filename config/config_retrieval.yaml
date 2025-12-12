@@ -1,7 +1,6 @@
-preferred_provider: qdrant_cloud
+preferred_endpoint: qdrant_cloud
 
-
-retrieval_endpoints:
+endpoints:
   qdrant_cloud:
     enabled: true
     api_endpoint_env: QDRANT_URL
