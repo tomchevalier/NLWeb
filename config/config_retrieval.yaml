@@ -3,6 +3,7 @@ endpoints:
     enabled: true
     api_endpoint_env: QDRANT_URL
     api_key_env: QDRANT_API_KEY
+    embedding_provider: gemini
     index_name: skus
     db_type: qdrant
 
