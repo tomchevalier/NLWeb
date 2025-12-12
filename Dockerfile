@@ -24,7 +24,7 @@ COPY code/python/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Stage 2: Runtime stage
-FROM python:3.13-slim
+FROM python:3.12-slim
 
 # Install runtime dependencies and apply security updates
 RUN apt-get update && \
@@ -48,7 +48,7 @@ COPY static/ /app/static/
 COPY config/ /app/config/
 
 # Copy installed packages from builder stage
-COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
+COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Create data directories and set permissions as root
