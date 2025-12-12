@@ -5,4 +5,4 @@ retrieval_endpoints:
     url_env_var: QDRANT_URL
     enabled: true
 
-preferred_endpoint: qdrant_cloud
+preferred_endpoint:  qdrant_cloud
