@@ -5,7 +5,7 @@ static_directory: ../static
 # if development, various config params can be overridden with query params
 # obviously, this cannot be allowed in production.
 # in testing mode, exceptions are raised instead of being caught for better error visibility
-mode: development # or production or testing.
+mode: production # or development or testing.
 
 # Default homepage path
 homepage: static/index.html
