@@ -81,3 +81,4 @@ PyJWT>=2.8.0
 # zon>=3.0.0
 
 google-generativeai
+qdrant-client
