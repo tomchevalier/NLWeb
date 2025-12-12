@@ -46,6 +46,7 @@ RUN groupadd -r nlweb && \
 COPY code/ /app/
 COPY static/ /app/static/
 COPY config/ /config/
+RUN ln -s /config /app/config
 RUN ls -la /config/ && cat /config/config_retrieval.yaml
 
 # Copy installed packages from builder stage
