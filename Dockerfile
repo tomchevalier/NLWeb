@@ -17,7 +17,7 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-# Copy requirements file
+# Copy requirements file force rebuild v2
 COPY code/python/requirements.txt .
 
 # Install Python packages
