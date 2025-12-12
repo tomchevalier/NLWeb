@@ -1,4 +1,4 @@
-preferred_endpoint: qdrant_cloud
+preferred_provider: qdrant_cloud
 
 endpoints:
   qdrant_cloud:
