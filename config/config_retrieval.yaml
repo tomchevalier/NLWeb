@@ -3,5 +3,5 @@ endpoints:
     enabled: true
     api_endpoint_env: QDRANT_URL
     api_key_env: QDRANT_API_KEY
-    index_name: nlweb_collection
+    index_name: skus
     db_type: qdrant
