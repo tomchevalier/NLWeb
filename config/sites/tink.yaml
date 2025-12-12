@@ -1,0 +1,15 @@
+site_name: tink
+description: "Tink is a recruitment service offering access to qualified pools of candidates (SKUs). Each SKU represents a specific type of qualified candidate pool, like 'Nursing candidates in Boston' or 'Sales candidates in Houston'."
+item_types:
+  - "candidates"
+  - "SKUs"
+  - "recruitment products"
+  - "qualified candidates"
+  - "candidate sourcing"
+example_queries:
+  - "nursing candidates"
+  - "sales candidates in Houston"
+  - "find healthcare candidates"
+  - "show me tech candidates"
+  - "I need to find nurses"
+  - "I need 5 qualified candidates for this job"
