@@ -45,8 +45,8 @@ RUN groupadd -r nlweb && \
 # Copy application code
 COPY code/ /app/
 COPY static/ /app/static/
-COPY config/ /app/config/
-RUN ls -la /app/config/ && cat /app/config/config_retrieval.yaml
+COPY config/ /config/
+RUN ls -la /config/ && cat /config/config_retrieval.yaml
 
 # Copy installed packages from builder stage
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
