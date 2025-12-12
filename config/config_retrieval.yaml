@@ -1,5 +1,8 @@
 write_endpoint: qdrant_cloud
 
+aggregation:
+  enabled: false
+
 endpoints:
   qdrant_cloud:
     enabled: true
