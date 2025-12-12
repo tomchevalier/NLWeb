@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM python:3.13-slim AS builder
+FROM python:3.12-slim AS builder
 
 # Install build dependencies
 RUN apt-get update && \
