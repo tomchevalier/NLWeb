@@ -1,5 +1,6 @@
 preferred_provider: qdrant_cloud
 
+
 retrieval_endpoints:
   qdrant_cloud:
     enabled: true
