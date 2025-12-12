@@ -1,3 +1,5 @@
+preferred_provider: qdrant_cloud
+
 endpoints:
   qdrant_cloud:
     enabled: true
@@ -11,4 +13,3 @@ providers:
   gemini:
     api_key_env: GEMINI_API_KEY
     model: models/text-embedding-004
-    
